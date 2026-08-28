@@ -1,0 +1,4 @@
+jdk:
+  - openjdk8
+install:
+  - ./gradlew :arms:install :arms-autolayout:install :arms-imageloader-glide:install -Pgroup=com.github.hardlove

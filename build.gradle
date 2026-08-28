@@ -3,25 +3,30 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
-        //Gradle Android Maven plugin
+        // Gradle Android Maven plugin, used by JitPack via the install task
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        //Gradle Bintray Plugin
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
+        jcenter()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// Newer JitPack looks for publishToMavenLocal; map it to the existing install tasks.
+task publishToMavenLocal {
+    dependsOn ':arms:install', ':arms-autolayout:install', ':arms-imageloader-glide:install'
 }
