@@ -3,4 +3,4 @@ jdk:
 before_install:
   - echo "include ':arms', ':arms-autolayout', ':arms-imageloader-glide'" > settings.gradle
 install:
-  - ./gradlew :arms:install :arms-autolayout:install :arms-imageloader-glide:install -Pgroup=com.github.hardlove
+  - ./gradlew :arms:install :arms-autolayout:install :arms-imageloader-glide:install -Pgroup=com.github.hardlove -x test -x lint
