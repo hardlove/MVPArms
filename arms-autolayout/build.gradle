@@ -23,6 +23,8 @@ android {
 dependencies {
     compileOnly rootProject.ext.dependencies["appcompat-v7"]
     compileOnly rootProject.ext.dependencies["annotations"]
+    // JitCI builds androidTest; design styles need AppCompat resources on the test APK.
+    androidTestImplementation rootProject.ext.dependencies["appcompat-v7"]
     api(rootProject.ext.dependencies["design"]) {
         exclude module: 'support-annotations'
         exclude module: 'appcompat-v7'

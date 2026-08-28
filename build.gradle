@@ -33,14 +33,16 @@ task publishToMavenLocal {
     dependsOn ':arms:install', ':arms-autolayout:install', ':arms-imageloader-glide:install'
 }
 
-// JitCI runs a full `build` including androidTest. Library modules keep AppCompat as
-// compileOnly, so instrumented tests fail on missing AppCompat resources. Publishing
-// only needs the AAR, so skip those test tasks.
-subprojects { sub ->
-    sub.tasks.whenTaskAdded { task ->
-        def n = task.name
-        if (n.contains('AndroidTest') || n.contains('UnitTest') || n == 'test') {
+// JitCI runs a full `build` including androidTest. Disable those tasks after every
+// project is evaluated so AGP-created tasks are included (whenTaskAdded is too early).
+gradle.projectsEvaluated {
+    allprojects { p ->
+        p.tasks.matching { task ->
+            def n = task.name
+            n.contains('AndroidTest') || n.contains('UnitTest') || n == 'test'
+        }.all { task ->
             task.enabled = false
+            task.onlyIf { false }
         }
     }
 }
